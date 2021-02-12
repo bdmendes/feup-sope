@@ -11,3 +11,4 @@ unset with "unset <VAR_NAME>".
 These are volatile; to make them permanent write them in .bash_profile or
 .bashrc.
 
+6. open(file) will fail if the file does not exist.
