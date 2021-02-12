@@ -1,0 +1,13 @@
+1a. No; make can be used in any compatible Unix based plataform to perform any compilation task.
+
+2. Less redundancy (more space efficient); less portability.
+
+3a. No.
+
+5. Command line args are the command "words"; environment variables are global defined variables to be used by all processes.
+
+5c. You can set with: "export <VAR_NAME> = <VAR_VALUE>;
+unset with "unset <VAR_NAME>".
+These are volatile; to make them permanent write them in .bash_profile or
+.bashrc.
+
