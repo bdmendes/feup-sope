@@ -12,3 +12,15 @@ These are volatile; to make them permanent write them in .bash_profile or
 .bashrc.
 
 6. open(file) will fail if the file does not exist.
+
+7. Manage the resources each program has access to; easy the use of the system by hiding low level system details.
+
+8. It is:
+-> Multi-user: processes owned by different users
+-> Multiprogramming: various processes in memory
+-> Timesharing: users and processes can do stuff, in a concurrent manner
+
+9a. "date -s <date>" sets the system date and time, which is a privileged action that must be executed in kernel mode.
+9b. "chmod +x <file>": changing the permission bits of a file (for a certain user) is a privileged action.
+
+10. "time <command>" runs command and after execution prints the time it took to do so
