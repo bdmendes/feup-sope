@@ -1,0 +1,7 @@
+all: hello
+
+hello: hello.c
+	cc -o hello.out hello.c
+	
+clean:
+    rm -f hello.out
