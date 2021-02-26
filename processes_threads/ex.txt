@@ -1,0 +1,79 @@
+1.
+Program: "a sequence of instructions, written to perform a specified task"
+Process: "an instance of a computer program that is being executed."
+Thread: "similar to a real process but executes within the context of a process and shares the same resources allotted to the process by the kernel"
+
+2a.
+-> PID (Process Identifier)
+-> PPID (Parent Process Identifier)
+-> PUID/PGID (user / user group who initiated the process)
+-> text space (memory where code lies)
+-> stack space (automatically managed memory)
+
+2b. 
+-> Program counter
+-> Registers
+-> Stack
+-> State
+-> Others common to all threads of the same process (adress space, variables, etc)
+
+3b.
+Part of the output of "ps axjf":
+   PPID     PID    PGID     SID TTY        TPGID STAT   UID   TIME COMMAND
+  (...)
+      1     786     786     786 ?             -1 Ss    1000   0:00 /usr/lib/systemd/systemd --user
+  (...)
+    786   11519   11519   11519 ?             -1 Ssl   1000   0:11  \_ /usr/bin/krunner
+  11519   24727   11519   11519 ?             -1 Sl    1000   4:55  |   \_ /usr/lib/firefox/firefox
+  24727   24776   11519   11519 ?             -1 Sl    1000   0:11  |   |   \_ /usr/lib/firefox/fir
+  24727   24838   11519   11519 ?             -1 Sl    1000   0:06  |   |   \_ /usr/lib/firefox/fir
+  24727   24906   11519   11519 ?             -1 Sl    1000  12:11  |   |   \_ /usr/lib/firefox/fir
+  24727   25170   11519   11519 ?             -1 Sl    1000   0:02  |   |   \_ /usr/lib/firefox/fir
+  24727   25246   11519   11519 ?             -1 Sl    1000   0:00  |   |   \_ /usr/lib/firefox/fir
+  24727   25972   11519   11519 ?             -1 Sl    1000   0:12  |   |   \_ /usr/lib/firefox/fir
+  24727   28642   11519   11519 ?             -1 Sl    1000   0:02  |   |   \_ /usr/lib/firefox/fir
+  24727   29265   11519   11519 ?             -1 Sl    1000   0:12  |   |   \_ /usr/lib/firefox/fir
+  24727   29319   11519   11519 ?             -1 Sl    1000   0:01  |   |   \_ /usr/lib/firefox/fir
+  11519   24972   11519   11519 ?             -1 Sl    1000   0:09  |   \_ /usr/lib/slack/slack -s
+  24972   24978   11519   11519 ?             -1 S     1000   0:00  |   |   \_ /usr/lib/slack/slack
+  24978   25008   11519   11519 ?             -1 Sl    1000   0:08  |   |   |   \_ /usr/lib/slack/s
+  25008   25025   11519   11519 ?             -1 S     1000   0:00  |   |   |       \_ /usr/lib/sla
+  24972   24979   11519   11519 ?             -1 S     1000   0:00  |   |   \_ /usr/lib/slack/slack
+  24979   24981   11519   11519 ?             -1 S     1000   0:00  |   |   |   \_ /usr/lib/slack/s
+  24981   25069   11519   11519 ?             -1 Sl    1000   1:01  |   |   |       \_ /usr/lib/sla
+  24972   25011   11519   11519 ?             -1 Sl    1000   0:01  |   |   \_ /usr/lib/slack/slack
+  24972   26316   11519   11519 ?             -1 Sl    1000   0:00  |   |   \_ /usr/lib/slack/slack
+  11519   26544   11519   11519 ?             -1 Sl    1000   0:09  |   \_ /opt/visual-studio-code/
+  26544   26546   11519   11519 ?             -1 S     1000   0:00  |       \_ /opt/visual-studio-c
+  26546   26568   11519   11519 ?             -1 Sl    1000   0:28  |       |   \_ /opt/visual-stud
+  26544   26547   11519   11519 ?             -1 S     1000   0:00  |       \_ /opt/visual-studio-c
+  26544   26576   11519   11519 ?             -1 Sl    1000   0:00  |       \_ /opt/visual-studio-c
+  26544   26718   11519   11519 ?             -1 Sl    1000   0:03  |       \_ /opt/visual-studio-c
+  26544   27669   11519   11519 ?             -1 Rl    1000   1:03  |       \_ /opt/visual-studio-c
+  27669   27704   11519   11519 ?             -1 Sl    1000   0:05  |           \_ /opt/visual-stud
+  27704   27831   11519   11519 ?             -1 Sl    1000   0:00  |           |   \_ /usr/bin/cla
+  27669   27714   11519   11519 ?             -1 Sl    1000   0:00  |           \_ /opt/visual-stud
+  27669   27741   11519   11519 ?             -1 Sl    1000   0:00  |           \_ /opt/visual-stud
+  27669   32971   32971   32971 pts/1      32971 Ss+   1000   0:00  |           \_ /bin/bash
+  27669   33005   33005   33005 pts/2      35499 Ss    1000   0:00  |           \_ /bin/bash
+  33005   35499   35499   33005 pts/2      35499 R+    1000   0:00  |               \_ ps axjf
+
+4.
+Process states:
+
+    New                             
+    |                                -> Terminated
+    |                                |
+    -> Waiting/ready <----> Running -|
+    |                        |
+    --------|                |
+            Blocked  <-------|
+
+6.
+Process based multitasking requires more overhead, such as its own adress space. On the other hand,
+this might present as an advantage for security (sandboxing) reasons - see Firefox and other modern browsers.
+
+7.
+"On Unix-like operating systems such as Linux, signals are software interrupts. They provide a way for the user (or a process) to directly communicate with a process."
+"Signal handling is vulnerable to race conditions. As signals are asynchronous, another signal (even of the same type) can be delivered to the process during execution of the signal handling routine."
+

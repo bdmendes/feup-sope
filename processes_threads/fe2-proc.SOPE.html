@@ -1,0 +1,134 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<h3 class="tit"><a href="https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=459478">2020/2021</a>:
+Sistemas Operativos (<span style="font-style: italic;">Operating
+Systems</span>) - 2º <a href="http://sigarra.up.pt/feup/cursos_geral.formview?p_cur_sigla=MIEIC">MIEIC</a></h3>
+
+<h3 align="right">22.feb.2021</h3>
+
+<h2 align="center">Exercise Sheet 2</h2>
+
+<h3>Processes, threads and communication</h3>
+<ol>
+  <li>Differentiate program, process and thread.</li>
+  <li>Consider the information the operating system keeps about the activities
+    it manages. 
+    <ul style="list-style-type: lower-alpha;">
+      <li>Present 5 relevant data items that differentiate a process from
+        another.</li>
+      <li>Do the same for threads.</li>
+      <li>Present the data from a. and b. in a comparative table: one row for
+        each item; one column for process and another for thread.</li>
+    </ul>
+  </li>
+  <li>Use the <code>ps</code> command, perhaps with the options <code>a u
+    x</code>, to observe the list of processes that are "registered" in the
+    system at a given moment. 
+    <ul style="list-style-type: lower-alpha;">
+      <li>Take a note of the different states that are visible and try to
+        interpret their meaning with... "<code>man ps</code>"!</li>
+      <li>With the same command (<code>ps</code>), eventually with new options,
+        trace the family tree of the process that corresponds to
+        <code>ps</code>, up to the "initial", root process.</li>
+      <li>With the <code>pstree</code> utility, identify a similar tree (for
+        <code>pstree</code> process). (Clue: there is an option that shows the
+        PIDs.)</li>
+    </ul>
+  </li>
+  <li>The Process state transition Diagram presented in the lectures' slides
+    shows the 3 main states: <em>Running</em>, <em>Blocked</em> and
+    <em>Ready</em>. Update the diagram to accomodate 2 more possible states:
+    <em>New</em> and <em>Terminated</em>.</li>
+  <li>Write a program that does the following: 
+    <ul>
+      <li>the initial process creates a child process;</li>
+      <li>after <code>fork()</code> the child process writes the word
+        "<code>Hello</code>" to standard out;</li>
+      <li>after <code>fork()</code> the parent (initial) process writes
+        "<code>World!</code>" to standard out, guaranteedly to appear on screen
+        after "<code>Hello</code>".</li>
+    </ul>
+    Could you give a similar guarantee, now having the parent write
+    "<code>World:</code>" before the child writes "<code>Hello!</code>"? </li>
+  <li>Present an advantage and a disadvantage of having the architecture of a
+    program based on processes compared with basing it on threads.</li>
+  <li>The use of signals in the communication of processes is often considered
+    with some apprehension by application designers. Clarify the reason for
+    this apprehension, presenting an illustrative, problematic situation.</li>
+  <li>Study the sample program "<code>ssignal</code>", that is in the "Code
+    examples" web area of the course unit.
+    <ul style="list-style-type: lower-alpha;">
+      <li>Use it as basis for another program that satisfies the request in the
+        last paragraph of the above problem 5 (the parent process writes
+        "<code>World:</code>" after <code>fork()</code> and before the child
+        writes "<code>Hello!</code>").</li>
+      <li>Try to confirm the correction this new program, by making sure that,
+        after <code>fork()</code>, the parent process starts executing after
+        the child process (program variant no.1) and (variant no. 2) the parent
+        starts before the child. For each of these tests, use a mere
+        <code>sleep()</code>. </li>
+    </ul>
+  </li>
+  <li>Study the example program "<code>sthread</code>", which shows, in a
+    simplified way, the creation and termination of threads. 
+    <ul style="list-style-type: lower-alpha;">
+      <li>Change the program in order to pass as argument to each new thread
+        its creation number (represented by the local variable <code>i</code>)
+        and so that the threads end with a termination value of
+        <code>i*i</code>, which the main thread will read.</li>
+      <li>Try to see the threads with the <code>ps</code> utility (perhaps
+        called with the rigth option). If necessary, keep them running for a
+        few seconds with <code>sleep()</code>.</li>
+    </ul>
+  </li>
+  <li>Write a program that displays the sequence "<code>Operating
+    Systems</code>" on the screen, where one thread displays
+    "<code>Operating</code> " and another thread displays
+    "<code>Systems</code>".<br>
+    The program should have a single function, executed by both threads, which
+    takes as arguments the string to be written on the screen and its order of
+    presentation.</li>
+  <li>Differentiate, by (at least) two aspects, the use of (<em>normal</em>,
+    <em>anonymous</em>) <em>pipes</em> for interprocess communication relative
+    to using <em>named pipes</em> (<em>FIFOs</em>).</li>
+  <li>One process is expected to send color information to another process,
+    each color being one of the 7 of the rainbow; the other process should
+    answer whether it already had it available in its private palette or not.
+    Explain how this could be achieved (and under what circumstances) with each
+    of the following inter-communication techniques: 
+    <ul style="list-style-type: lower-roman;">
+      <li>named pipes</li>
+      <li>(normal) pipes</li>
+      <li>signals</li>
+      <li>(cannot be done!)</li>
+    </ul>
+  </li>
+  <li>Study the code fragments related to pipes presented in the lectures'
+    slides and use them to write programs where <code>fork()</code> is used to
+    create a new process, and: 
+    <ul style="list-style-type: lower-alpha;">
+      <li>Program 1 uses <em>pipes</em>; the child receives
+        "<code>Operating</code> " from the parent, concatenates it with
+        "<code>Systems</code>" and writes the composed string to the standard
+        output;</li>
+      <li>Program 2 has almost the same specification as Program1: the
+        exception being that it will use <em>named pipes</em> instead;</li>
+      <li>Program 3 has the same specification as Program1 and, in addition,
+        the parent also concatenates its string ("<code>Operating</code> ")
+        with "<code>Systems</code>" received from the child, after which it
+        writes the composed string to the standard output;</li>
+      <li>Program 4 has almost the same specification as Program3, the
+        exception being that it will use <em>named pipes</em> instead.</li>
+    </ul>
+  </li>
+  <li>... (additional exercises on Moodle for people with free time)</li>
+</ol>
+
+
+</body></html>
