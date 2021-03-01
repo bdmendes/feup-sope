@@ -31,7 +31,7 @@ int main() {
     return -1;
   case 0: // Child
     printf("Hello ");
-    kill(pid, SIGUSR1);
+    kill(getppid(), SIGUSR1);
     break;
   default: // Parent
     pause();
