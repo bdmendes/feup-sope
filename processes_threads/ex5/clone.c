@@ -9,16 +9,16 @@ int main() {
   pid_t process_id = fork();
   int stat_loc = 0;
   switch (process_id) {
-  case -1:
-    perror("fork failed");
-    return -1;
-  case 0: // In the child
-    printf("Hello ");
-    break;
-  default:           // In the parent
-    wait(&stat_loc); // Mandatory; no way to know which one would run first
-    printf("World!\n");
-    break;
+    case -1:
+      perror("fork failed");
+      return -1;
+    case 0:  // In the child
+      printf("Hello ");
+      break;
+    default:            // In the parent
+      wait(&stat_loc);  // Mandatory; no way to know which one would run first
+      printf("World!\n");
+      break;
   }
   // Should we need to invert the order (the parent acting first), signals are
   // needed
