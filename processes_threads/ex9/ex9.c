@@ -27,8 +27,7 @@ int main() {
   // (eventually) in the next iteration (would the thread be faster? don't know)
   int* id_copies = malloc(3 * sizeof(int));
   for (int i = 0; i < NTHREADS; ++i) {
-    ids[i] = i;
-    id_copies[i] = ids[i];
+    id_copies[i] = i;
     printf("%d, %d, \n", ids[i], id_copies[i]);
   }
 
