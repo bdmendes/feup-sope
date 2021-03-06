@@ -25,7 +25,6 @@ void* my_print(void* ss) {
 int main() {
     MyStr ss;
     char* strings[] = {"Operating", "Systems"};
-    bool done[] = {false, false};
     ss.strings = strings;
     ss.currToPrint = 0;
     ss.n = 2;

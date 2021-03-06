@@ -77,3 +77,10 @@ this might present as an advantage for security (sandboxing) reasons - see Firef
 "On Unix-like operating systems such as Linux, signals are software interrupts. They provide a way for the user (or a process) to directly communicate with a process."
 "Signal handling is vulnerable to race conditions. As signals are asynchronous, another signal (even of the same type) can be delivered to the process during execution of the signal handling routine."
 
+11. Named pipes (FIFOS) can be used to communicate between two different process groups, while regular pipes are only useful in parent-child. Fifos use only one file
+descriptor for reading/writing while regular pipes use two.
+
+12. 
+    i. write to the pipe the colors, read in the other end
+    ii. same thing, but the other process must be a child/parent of the first
+    iii. not possible
