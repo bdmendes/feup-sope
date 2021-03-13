@@ -1,0 +1,9 @@
+3. Pressing CTRL+C signals the foreground group with SIGINT.
+When using kill -s <SIGNAL> <PID> only the process with PID receives SIGNAL.
+
+4. Mutex is a locking mechanism: the resource stays locked for all tasks except for the one that acquired the lock.
+Semaphores are a signal mechanism: processes signal when releasing or taking a resource; only a number of processes can access the resource at a time.
+
+5. "Suppose that one process reads the lock and sees that it is 0. Before it can set the lock to 1, another process is scheduled, runs, and sets the lock to 1. When the first process runs again, it will also set the lock to 1, and two processes will be in their critical regions at the same time."
+
+6. If the parent process sends the signal before the child has the chance to call pause(); after pause() is called, no signal will ever be sent.
