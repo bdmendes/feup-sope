@@ -1,0 +1,175 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<h3 class="tit"><a href="https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=459478">2020/2021</a>:
+Sistemas Operativos (<span style="font-style: italic;">Operating
+Systems</span>) - 2º <a href="http://sigarra.up.pt/feup/cursos_geral.formview?p_cur_sigla=MIEIC">MIEIC</a></h3>
+
+<h3 align="right">8.mar.2021</h3>
+
+<h2 align="center">Exercise Sheet 3</h2>
+
+<h3>Processes, threads and coordination</h3>
+<ol>
+  <li>Add recursion to Exercise 12 of FE1: 
+    <ul>
+      <li>write a parallel program that runs through all the file hierarchy of
+        the current directory, presenting at the standard out the full name of
+        all the regular files found and their size. Use a new process for each
+        directory in the hierarchy.<br>
+      </li>
+    </ul>
+  </li>
+  <li>Study the example program <code>sexec</code> and change it to new
+    programs: 
+    <ul style="list-style-type: lower-alpha;">
+      <li>one in that <code>execve()</code> is replaced by one of the related
+        functions of the standard C library function.</li>
+      <li>another in that the parent process waits for the child to finish and
+        prints a message showing the termination code;</li>
+      <li>yet another that shows that <code>USER</code> was changed after the
+        <code>exec</code>.</li>
+    </ul>
+  </li>
+  <li>Create 3 processes with a parent-child-grandchild "kinship" and with
+    <code>SIGINT</code> and <code>SIGUSR1</code> signal handlers installed.
+    (Note: there is a picture in "Supplementary material" that might be of
+    enlightening for this exercise.) 
+    <ul style="list-style-type: lower-alpha;">
+      <li>See that all processes belong to the same <em>session</em> and the
+        same <em>group</em> and identify the "group leader". 
+        <ul>
+          <li>Check that the session has at least one other group, whose
+            <em>leader</em> is also the "session leader". <br>
+            (Hint: "<code>pstree -p</code>" and "<code>ps j</code>" might be
+            useful.)</li>
+        </ul>
+      </li>
+      <li>From a terminal, send any of the above signals to the leader of the
+        parent-child-grandchild group and check if any of the other processes
+        of the group receives them.</li>
+      <li>Press CTRL-C on the keyboard and check which processes receive the
+        corresponding signal.</li>
+    </ul>
+  </li>
+  <li>Clarify the difference between <em>semaphores</em> and
+  <em>mutexes</em>.</li>
+  <li>What is the "big deal" with the solution for accessing critical zones
+    exemplified in the following code segment? Is this solution incorrect
+    because it allows <em>race conditions</em> to occur? 
+    <p></p><pre>     int i;     // process number: 0 or 1<br>     int turn;  // shared variable for access to critical region<br><br>  enter_region(i)<br>     { while (turn != i) ; } // wait for turn
+  leave_region(i)<br>     { turn = 1-i; }         // give turn away</pre>
+    <p></p>
+  </li>
+  <li>Regarding the question on slide 18 of the sheets for "<em>Chap 3:
+    Coordination</em>" (code here repeated), explain the circumstances in which
+    the child process waits forever. 
+    <p></p><pre>  void fsin() { ... }<br>
+  int main() {
+     struct sigaction ss;
+  ... // set up ss with handler fsin();
+  sigaction(SIGUSR1, &amp;ss, NULL);<br>
+  int f = fork();
+  switch (f) {
+     case -1: perror("fork"); exit(1);
+     case 0:  pause(); printf("hello!"); break;
+     default: printf("World: ”); kill(f, SIGUSR1);
+     }
+  } // main()</pre>
+    <p></p>
+  </li>
+  <li>Study and try the sample program <code>count</code>. 
+    <ul style="list-style-type: lower-alpha;">
+      <li>Check the access problems to the shared variable, which are more
+        visible as the number of threads increases.<br>
+        (Tip: the use of pipes (<code>|</code>) and the <code>uniq</code>
+        utility (options '<code>c</code>' and '<code>d</code>') makes it
+        particularly comfortable to spot the problems.</li>
+      <li>Change the program by writing a new program, <code>count_ok</code>,
+        that solves the observed access problems.</li>
+    </ul>
+  </li>
+  <li>The following code is a "non-solution" for the <em>Dining
+    Philosophers</em> classic problem. Show that it suffers from risk of: 
+    <ul style="list-style-type: lower-roman;">
+      <li>deadlock;</li>
+      <li><em>livelock</em> (or <em>starvation</em>).</li>
+    </ul>
+    <p></p><pre>  #define N 5       // number of philosophers
+
+  void philosopher(int i) {
+     while (TRUE) {
+       think();             // philosopher is thinking
+       take_fork(i);        //take left fork
+       take_fork((i+1) % N);// take right fork
+       eat();               // yum-yum, spaghetti
+       put_fork(i);         // put left fork back on the table
+       put_fork((i+1) % N); // put right fork back on the table
+     }
+  } //philosopher</pre>
+    <p></p>
+  </li>
+  <li>Consider the classical synchronization problem <em>Sleeping Barber</em>.
+    Clearly identify the race conditions to avoid regarding: 
+    <ul>
+      <li>over-booking (two customers on same seat);</li>
+      <li>deadlock (customer and barber both sleeping).</li>
+    </ul>
+  </li>
+  <li>Consider the classical synchronization problem <em>Readers and
+    Writers</em>. Clearly identify some problems regarding: 
+    <ul>
+      <li>writer starvation or reader starvation, due to race conditions;</li>
+      <li>low throughput, due to excessive zeal in avoiding starvation.</li>
+    </ul>
+  </li>
+  <li>In the sample program <code>count</code>, the access to the variable
+    shared by multiple threads was supposed to be regulated, but the attempt
+    was unsuccessful; you probably fixed the problem with <code>count_ok</code>
+    (Exercise 7.b).<br>
+    Consider, now, the following changes that are meant to transform this
+    situation into another one, of the <em>bounded buffer</em> type, and call
+    the new program <code>bbcount</code>. 
+    <ul>
+      <li>the <code>MAXCOUNT</code> constant, should be named
+        <code>BUF_SIZE</code> and take the value <code>20</code>;</li>
+      <li>the threads created, whose total number is specified in the command
+        line, must be of 2 types: 
+        <ul>
+          <li><em>consumer thread</em> - whose function
+            <strong>decreases</strong> the value of the <code>count</code>
+            variable;</li>
+          <li><em>producer thread</em> - whose function
+            <strong>increases</strong> that variable.<br>
+            (As a mere suggestion, create new threads, one of each type in
+            turn, until the specified total number of threads is reached.)</li>
+        </ul>
+      </li>
+      <li>To control the program termination, define a constant,
+        <code>MAX_ITER</code>, with the value <code>100000</code> and create a
+        new shared variable <code>iter</code> that counts the number of
+        accesses (iterations) to the (bounded) buffer variable
+        <code>count</code>;</li>
+      <li>use the synchronization primitives that you find convenient to ensure
+        that the program operates error-free and without deadlock;</li>
+      <li>check if the final result is correct by studying the printed messages
+        with the <code>uniq</code> utility. </li>
+    </ul>
+    Regarding what is not specified here, make reasonable assumptions and
+    implement them. </li>
+  <li>If you solved the previous problem (<code>bbcount</code>) with semaphores
+    as the main synchronization primitive, write another solution, this time
+    with condition variables; if you did not use semaphores, write another
+    solution using them.</li>
+  <li>... (additional exercises on Moodle for people with free time)</li>
+</ol>
+
+<p></p>
+
+
+</body></html>
